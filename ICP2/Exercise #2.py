@@ -1,13 +1,3 @@
-
-"""samplefile = open("inputFile").read()
-
-for word in samplefile.split():
-
-   wordlen = str(len(word))
-
-   print(word + " " + wordlen)"""
-
-
 lenChar = 0
 file2 = open("writefile", "w+")
 with open("inputFile", 'r') as file:
