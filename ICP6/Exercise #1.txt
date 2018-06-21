@@ -1,0 +1,55 @@
+from sklearn import datasets, metrics
+from sklearn.naive_bayes import GaussianNB
+from sklearn.cross_validation import train_test_split
+from sklearn.metrics import confusion_matrix
+import numpy as np
+
+# Loading the dataset
+irisdataset = datasets.load_iris()
+
+# getting the data and response of the dataset
+x = irisdataset.data
+y = irisdataset.target
+
+# Splitting the dataset into the Training set and Test set
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.2)
+
+# split the data for training and testing and Fitting Naive Bayes Classification to the Training set
+model = GaussianNB()
+model.fit(x_train, y_train)
+
+# Predicting the Test set results
+y_pred = model.predict(x_test)
+# printing the predicted values (y_pred) for the test data (x_test)
+#print(x_test, y_pred)
+
+
+#lets see the actual and predicted value side by side  #actual value on the left side and predicted value on the right hand side
+y_compare = np.vstack((y_test,y_pred)).T
+
+#printing the top 10 values
+print(y_compare[:10,:])
+
+#Printing the accuracy of the model using metrics module from sklearn
+print('\n\n Acuracy of the model calculated on test data is ', metrics.accuracy_score(y_test, y_pred))
+
+
+# Calculating confusion matrix
+cm = confusion_matrix(y_test, y_pred)
+print('\n\n Confusion Matrix\n', cm)
+
+#finding accuracy from the confusion matrix.
+a = cm.shape
+corrPred = 0
+falsePred = 0
+
+for row in range(a[0]):
+    for c in range(a[1]):
+        if row == c:
+            corrPred +=cm[row,c]
+        else:
+            falsePred += cm[row,c]
+print('\nCorrect predictions from confusion matrix: ', corrPred)
+print('\nFalse predictions from confusion matrix', falsePred)
+print ('\n\nAccuracy of the Naive Bayes Clasification is using confusion matrix: ', corrPred/(cm.sum()))
+
